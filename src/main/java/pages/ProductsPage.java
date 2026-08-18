@@ -10,16 +10,17 @@ import java.util.stream.Collectors;
 public class ProductsPage extends BasePage {
 
     private final By tituloProducts = AppiumBy.androidUIAutomator("new UiSelector().text(\"PRODUCTS\")");
-    private final By btnAddToCart = AppiumBy.androidUIAutomator("new UiSelector().text(\"ADD TO CART\").instance(0)");
-    private final By iconoCarrito = AppiumBy.androidUIAutomator(
-            "new UiSelector().className(\"android.widget.ImageView\").instance(3)");
-    private final By btnCarrito = AppiumBy.androidUIAutomator(
-            "new UiSelector().className(\"android.view.ViewGroup\").instance(13)");
-    private final By filtro = AppiumBy.androidUIAutomator(
-            "new UiSelector().className(\"android.widget.ImageView\").instance(5)");
-    private final By opcionHighToLow = AppiumBy.androidUIAutomator(
-            "new UiSelector().text(\"Price (high to low)\")");
+    private final By btnAddToCart = AppiumBy.xpath("(//android.view.ViewGroup[@content-desc=\"test-ADD TO CART\"])[1]");
+    private final By iconoCarrito = AppiumBy.xpath(
+            "//android.view.ViewGroup[@content-desc=\"test-Cart\"]/android.view.ViewGroup/android.widget.ImageView");
+    private final By filtro = AppiumBy.xpath(
+            "//android.view.ViewGroup[@content-desc=\"test-Modal Selector Button\"]/android.view.ViewGroup/android.view.ViewGroup/android.widget.ImageView");
+    private final By opcionHighToLow = AppiumBy.xpath("//android.widget.TextView[@text=\"Price (high to low)\"]");
     private final By precios = AppiumBy.accessibilityId("test-Price");
+
+    public boolean tituloProductsVisible() {
+        return isDisplayed(tituloProducts);
+    }
 
     public String obtenerTituloProducts() {
         return getText(tituloProducts);
@@ -31,10 +32,6 @@ public class ProductsPage extends BasePage {
 
     public void tocarIconoCarrito() {
         click(iconoCarrito);
-    }
-
-    public void clickCarrito() {
-        click(btnCarrito);
     }
 
     public void abrirFiltro() {

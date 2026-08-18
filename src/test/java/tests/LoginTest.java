@@ -6,36 +6,52 @@ import com.aventstack.extentreports.ExtentTest;
 import com.aventstack.extentreports.MediaEntityBuilder;
 import org.testng.Assert;
 import org.testng.annotations.Test;
-import pages.BasePage;
+import pages.CartPage;
 import pages.LoginPage;
+import pages.ProductsPage;
 
 public class LoginTest extends BaseTest {
 
     @Test
     public void loginExitoso() {
-        ExtentTest test = ExtentReportManager.getReport().createTest("Login exitoso");
+        ExtentTest test = ExtentReportManager.getReport().createTest(
+                "Script #1: Login exitoso + Agregar producto al carrito");
         LoginPage loginPage = new LoginPage();
+        ProductsPage productsPage = new ProductsPage();
+        CartPage cartPage = new CartPage();
 
-        test.info("Paso 1: La app abrió correctamente",
+        test.info("Paso 1: Iniciar la app Swag Labs",
                 MediaEntityBuilder.createScreenCaptureFromPath(tomarCaptura("01_app_abierta")).build());
 
         loginPage.ingresarUsuario("standard_user");
-        test.pass("Paso 2: Usuario ingresado correctamente",
-                MediaEntityBuilder.createScreenCaptureFromPath(tomarCaptura("02_usuario_ingresado")).build());
-
         loginPage.ingresarPassword("secret_sauce");
-        test.pass("Paso 3: Password ingresada correctamente",
-                MediaEntityBuilder.createScreenCaptureFromPath(tomarCaptura("03_password_ingresado")).build());
+        test.pass("Paso 2: Ingresar standard_user / secret_sauce",
+                MediaEntityBuilder.createScreenCaptureFromPath(tomarCaptura("02_credenciales_ingresadas")).build());
 
         loginPage.clickIngresar();
-        test.pass("Paso 4: Botón login presionado correctamente",
-                MediaEntityBuilder.createScreenCaptureFromPath(tomarCaptura("04_login_presionado")).build());
+        test.pass("Paso 3: Tocar Login",
+                MediaEntityBuilder.createScreenCaptureFromPath(tomarCaptura("03_login_presionado")).build());
 
-        loginPage.clickImgMochila();
-        test.pass("Paso 5: Imagen Home presionado correctamente",
-                MediaEntityBuilder.createScreenCaptureFromPath(tomarCaptura("05_imagen_visible")).build());
+        Assert.assertTrue(productsPage.tituloProductsVisible(),
+                "La pantalla de productos no está visible");
+        Assert.assertEquals(productsPage.obtenerTituloProducts(), "PRODUCTS");
+        test.pass("Paso 4: Verificar pantalla de productos visible (título PRODUCTS)",
+                MediaEntityBuilder.createScreenCaptureFromPath(tomarCaptura("04_titulo_products")).build());
 
-        BasePage.scrollDown(400);
+        productsPage.agregarProductoAlCarrito();
+        test.pass("Paso 5: Agregar el primer producto tocando ADD TO CART",
+                MediaEntityBuilder.createScreenCaptureFromPath(tomarCaptura("05_add_to_cart")).build());
+
+        productsPage.tocarIconoCarrito();
+        test.pass("Paso 6: Tocar ícono del carrito",
+                MediaEntityBuilder.createScreenCaptureFromPath(tomarCaptura("06_icono_carrito")).build());
+
+        Assert.assertTrue(cartPage.productoVisible("Sauce Labs Backpack"),
+                "El producto no aparece en el carrito");
+        Assert.assertEquals(cartPage.obtenerTituloProducto(), "Sauce Labs Backpack");
+        test.pass("Paso 7: Verificar que el producto aparece en el carrito",
+                MediaEntityBuilder.createScreenCaptureFromPath(tomarCaptura("07_producto_en_carrito")).build());
+
         ExtentReportManager.getReport().flush();
     }
 

@@ -15,40 +15,6 @@ import pages.ProductsPage;
 public class PurchaseFlowTest extends BaseTest {
 
     @Test
-    public void agregarProductoAlCarrito() {
-        ExtentTest test = ExtentReportManager.getReport().createTest("Agregar producto al carrito");
-        LoginPage loginPage = new LoginPage();
-        ProductsPage productsPage = new ProductsPage();
-        CartPage cartPage = new CartPage();
-
-        test.info("Paso 1: La app abrió correctamente",
-                MediaEntityBuilder.createScreenCaptureFromPath(tomarCaptura("01_app_abierta")).build());
-
-        loginPage.login("standard_user", "secret_sauce");
-        test.pass("Paso 2: Login realizado correctamente",
-                MediaEntityBuilder.createScreenCaptureFromPath(tomarCaptura("02_login_ok")).build());
-
-        Assert.assertEquals(productsPage.obtenerTituloProducts(), "PRODUCTS");
-        test.pass("Paso 3: Título PRODUCTS validado",
-                MediaEntityBuilder.createScreenCaptureFromPath(tomarCaptura("03_titulo_products")).build());
-
-        productsPage.agregarProductoAlCarrito();
-        test.pass("Paso 4: Producto agregado con ADD TO CART",
-                MediaEntityBuilder.createScreenCaptureFromPath(tomarCaptura("04_add_to_cart")).build());
-
-        productsPage.clickCarrito();
-        test.pass("Paso 5: Carrito abierto",
-                MediaEntityBuilder.createScreenCaptureFromPath(tomarCaptura("05_carrito_abierto")).build());
-
-        Assert.assertTrue(cartPage.productoVisible("Sauce Labs Backpack"));
-        Assert.assertEquals(cartPage.obtenerTituloProducto(), "Sauce Labs Backpack");
-        test.pass("Paso 6: Producto Sauce Labs Backpack visible en el carrito",
-                MediaEntityBuilder.createScreenCaptureFromPath(tomarCaptura("06_producto_en_carrito")).build());
-
-        ExtentReportManager.getReport().flush();
-    }
-
-    @Test
     public void checkoutCompleto() {
         ExtentTest test = ExtentReportManager.getReport().createTest("Checkout completo hasta confirmación");
         LoginPage loginPage = new LoginPage();
@@ -64,7 +30,7 @@ public class PurchaseFlowTest extends BaseTest {
         test.pass("Paso 2: Producto agregado al carrito",
                 MediaEntityBuilder.createScreenCaptureFromPath(tomarCaptura("02_add_to_cart")).build());
 
-        productsPage.clickCarrito();
+        productsPage.tocarIconoCarrito();
         Assert.assertTrue(cartPage.checkoutVisible());
         test.pass("Paso 3: CHECKOUT visible en el carrito",
                 MediaEntityBuilder.createScreenCaptureFromPath(tomarCaptura("03_checkout_visible")).build());
