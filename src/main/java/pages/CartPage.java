@@ -7,8 +7,7 @@ public class CartPage extends BasePage {
 
     private final By tituloProducto = AppiumBy.androidUIAutomator(
             "new UiSelector().text(\"Sauce Labs Backpack\")");
-    private final By btnCheckout = AppiumBy.androidUIAutomator(
-            "new UiSelector().text(\"CHECKOUT\")");
+    private final By btnCheckout = AppiumBy.accessibilityId("test-CHECKOUT");
 
     public String obtenerTituloProducto() {
         return getText(tituloProducto);

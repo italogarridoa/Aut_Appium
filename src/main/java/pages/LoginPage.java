@@ -8,8 +8,6 @@ public class LoginPage extends BasePage {
     private final By username = AppiumBy.accessibilityId("test-Username");
     private final By password = AppiumBy.accessibilityId("test-Password");
     private final By btnLogin = AppiumBy.accessibilityId("test-LOGIN");
-    private final By imgMochila = AppiumBy.androidUIAutomator(
-            "new UiSelector().className(\"android.widget.ImageView\").instance(6)");
     private final By mensajeError = AppiumBy.androidUIAutomator(
             "new UiSelector().text(\"Sorry, this user has been locked out.\")");
 
@@ -23,10 +21,6 @@ public class LoginPage extends BasePage {
 
     public void clickIngresar() {
         click(btnLogin);
-    }
-
-    public void clickImgMochila() {
-        click(imgMochila);
     }
 
     public void login(String usuario, String pass) {
